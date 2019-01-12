@@ -1,4 +1,5 @@
 import numpy as np
+import json
 from random import *
 
 map = []
@@ -10,7 +11,7 @@ def make_random_graph():
     for i in range(100):
         source = randint(0,100)
         destin = randint(0,100)
-        map.append([source, destin, 0])
+        map.append([source, destin])
         if destin not in nodes[source]:
             nodes[source].append(destin)
         if source not in nodes[destin]:
@@ -43,7 +44,7 @@ def score_normalize(scores):
     lower_bound = min(scores)
 
     for i in range(len(scores)):
-        if scores[i] <= 12:
+        if scores[i] <= 6:
             scores[i] = 0
 
     scores = np.add(scores, -lower_bound)
@@ -56,10 +57,21 @@ def score_normalize(scores):
 
 if __name__ == "__main__":
     make_random_graph()
-    #print(map)
-    #print(nodes)
+    print(map)
+    print(nodes)
+    step_scores = {}
+
     for i in range(100):
         t = randint(0, 100)
         propaganda(100, t)
         scores = score_normalize(scores)
         print(scores)
+        step_scores[i] = scores
+
+    with open("ways.json", "w") as prop:
+        json.dump(map,prop)
+    with open("nodes.json", "w") as prop:
+        json.dump(nodes,prop)
+    with open("scores.json", "w") as prop:
+        json.dump(step_scores,prop)
+
