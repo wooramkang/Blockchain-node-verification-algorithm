@@ -130,6 +130,9 @@ class BidirectionalLstmAutoEncoder(object):
         print(model.summary())
         return model
 
+    def get_thres(self):
+        return self.threshold
+
     def load_model(self, model_dir_path):
         config_file_path = BidirectionalLstmAutoEncoder.get_config_file(model_dir_path)
         self.config = np.load(config_file_path).item()
