@@ -64,11 +64,10 @@ def score_normalize(scores):
     scores = np.divide(scores, upper_bound)
     seed(time.time())
     t = randint(0, 2)
-    scores = np.multiply(scores, 98+t)
+    scores = np.multiply(scores, 98)
     scores = [int(i) for i in scores]
 
     return scores
-
 
 if __name__ == "__main__":
     make_random_graph()
@@ -94,11 +93,10 @@ if __name__ == "__main__":
 
         # Plot it, providing a continuous color scale with cmap:
         fig = plt.figure()
-        fig.set_facecolor("#7ed102")
         nx.draw(G, with_labels=True, node_color=carac['myvalue'], edge_color ='black', cmap=plt.cm.Blues)
+        fig.set_facecolor("#d8ffe6")
         #plt.show()
-        plt.savefig("figure/"+str(i) +"_step.png",facecolor=fig.get_facecolor())
-        plt.gca()
+        plt.savefig("figure/"+str(i) +"_step.png", facecolor="#d8ffe6")
         plt.cla()
         plt.close()
 
