@@ -62,7 +62,9 @@ def score_normalize(scores):
 
     scores = np.add(scores, -lower_bound)
     scores = np.divide(scores, upper_bound)
-    scores = np.multiply(scores, 100)
+    seed(time.time())
+    t = randint(0, 2)
+    scores = np.multiply(scores, 98+t)
     scores = [int(i) for i in scores]
 
     return scores
