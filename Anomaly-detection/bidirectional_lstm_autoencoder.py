@@ -37,7 +37,7 @@ def main():
 
     print(anomaly_information)
     print(reconstruction_error)
-    print(predicted_data[1] * 1000)
+    #print(predicted_data[1] * 1000)
 
     with open("Anomaly.json", "w") as ano:
         json.dump(is_normal, ano)

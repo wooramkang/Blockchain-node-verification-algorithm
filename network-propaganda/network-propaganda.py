@@ -1,17 +1,30 @@
 import numpy as np
 import json
+import matplotlib.pyplot as plt
+import time
+import networkx as nx
+import pandas as pd
+
 from random import *
 
 map = []
 scores = [0 for i in range(101)]
 learning_rate = 0.5
 nodes = [[] for i in range(101)]
+G = nx.Graph()
 
 def make_random_graph():
-    for i in range(100):
+    for i in range(101):
+        seed(time.time())
         source = randint(0,100)
+        seed(time.time())
         destin = randint(0,100)
+        G.add_node(source,weight=0.5)
+        G.add_node(destin)
         map.append([source, destin])
+        G.add_edge(source, destin)
+        G.add_edge(destin, source)
+
         if destin not in nodes[source]:
             nodes[source].append(destin)
         if source not in nodes[destin]:
@@ -60,13 +73,33 @@ if __name__ == "__main__":
     print(map)
     print(nodes)
     step_scores = {}
+    # And a data frame with characteristics for your nodes
 
-    for i in range(100):
+    for i in range(30):
+        seed(time.time())
         t = randint(0, 100)
         propaganda(100, t)
+        print(t)
         scores = score_normalize(scores)
         print(scores)
         step_scores[i] = scores
+        carac = pd.DataFrame({'ID': range(101), 'myvalue': scores})
+
+        G.nodes()
+
+        carac = carac.set_index('ID')
+        carac = carac.reindex(G.nodes())
+
+        # Plot it, providing a continuous color scale with cmap:
+        fig = plt.figure()
+        fig.set_facecolor("#7ed102")
+        nx.draw(G, with_labels=True, node_color=carac['myvalue'], edge_color ='black', cmap=plt.cm.Blues)
+        #plt.show()
+        plt.savefig("figure/"+str(i) +"_step.png",facecolor=fig.get_facecolor())
+        plt.gca()
+        plt.cla()
+        plt.close()
+
 
     with open("ways.json", "w") as prop:
         json.dump(map,prop)
